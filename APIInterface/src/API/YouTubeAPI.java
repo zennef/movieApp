@@ -24,10 +24,11 @@ public class YouTubeAPI extends API_Top {
 		
 		try {
 			 
-			input = new FileInputStream("src/Api_keys.properties");
+			//input = new FileInputStream("src/Api_keys.properties");
 	 
 			// load a properties file
-			prop.load(input);
+			prop.load(getClass().getResourceAsStream("Api_keys.properties"));
+			
 	 
 			this.apiKey = prop.getProperty("youTubeKey");
 	 
