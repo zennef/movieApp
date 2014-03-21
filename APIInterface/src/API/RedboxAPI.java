@@ -10,7 +10,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
  
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.json.Json;
@@ -19,8 +23,19 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 
+
+
+
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
+import com.jayway.restassured.RestAssured.*;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+
 
  
 public class RedboxAPI extends API_Top {
@@ -33,11 +48,9 @@ public class RedboxAPI extends API_Top {
 			InputStream input = null;
 			
 			try {
-				 
-				input = new FileInputStream("src/Api_keys.properties");
-		 
-				// load a properties file
-				prop.load(input);
+				// load a properties file 
+				prop.load(getClass().getResourceAsStream("Api_keys.properties"));
+		
 		 
 				this.apiKey = prop.getProperty("redboxKey");
 		 
@@ -59,16 +72,88 @@ public class RedboxAPI extends API_Top {
  
 		String url = " https://api.redbox.com/v3/products?apiKey=" + this.apiKey + "&pageNum=3&pageSize=2";
  
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		HttpResponse<JsonNode> jsonResponse = Unirest.post(url)
+				  .header("accept", "application/json")
+				  .asJson();
+		
+		JsonArray array = (JsonArray) jsonResponse.getBody();
+		
+		for (JsonObject result : array.getValuesAs(JsonObject.class)) {
+			System.out.println(result.get("Products"));
+			}
+
+
+
+		
+
+		// if you need any parameters
+//		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+//		urlParameters.add(new BasicNameValuePair("paramName", "paramValue"));
+//		post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+//		HttpResponse response = client.execute(post);
+//		
+//		try (InputStream is = (response.getEntity().getContent());
+//				   JsonReader rdr = Json.createReader(is)) {
+//				
+//					
+//					JsonObject object = rdr.readObject();
+//					JsonArray array = object.getJsonArray("Products");
+//					System.out.println(object.toString());
+//					
+//					for (JsonObject result : array.getValuesAs(JsonObject.class)) {
+//						System.out.println(result.get("Movie"));
+//						}
+////					System.out.println(rdr.readArray());
+//				  
+//		}
+
+//		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+//
+//		StringBuffer result = new StringBuffer();
+//		String line = "";
+//		while ((line = rd.readLine()) != null) {
+//		    result.append(line);
+//		}
+//
+//		JsonObject o = new JsonObject(result.toString());
+		
+		
+	    //String url = "https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&q=Gravitytrailer&type=trailer&key=AIzaSyCcE9Fjlo5d-4gpRJkZ97a7KFB2k8pvcaM";
+
+//		URL obj = new URL(url);
+//		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+// 
+//		// optional default is GET
+//		con.setRequestMethod("GET");
+// 
+//		//add request header
+//		con.setRequestProperty("Accept", JSON);
+		
+		
+//		try (InputStream is = con.getInputStream();
+//				   JsonReader rdr = Json.createReader(is)) {
+//				
+//				   JsonObject object = rdr.readObject();
+//				   JsonArray results = object.getJsonArray("P");
+//		}
+		
+//		try (InputStream is = con.getInputStream();
+//				   JsonReader rdr = Json.createReader(is)) {
+//				
+//					
+//					JsonObject object = rdr.readObject();
+//					JsonArray array = object.getJsonArray("Movie");
+//					System.out.println(object.toString());
+//					
+//					for (JsonObject result : array.getValuesAs(JsonObject.class)) {
+//						System.out.println(result.get("Title"));
+//						}
+////					System.out.println(rdr.readArray());
+//				  
+//		}
  
-		// optional default is GET
-		con.setRequestMethod("GET");
- 
-		//add request header
-		con.setRequestProperty("Accept", JSON);
- 
-		int responseCode = con.getResponseCode();
 		
 //		BufferedReader in = new BufferedReader(
 //		        new InputStreamReader(con.getInputStream()));
@@ -79,6 +164,31 @@ public class RedboxAPI extends API_Top {
 //			response += (inputLine);
 //		}
 //		in.close();
+		
+//		ObjectMapper mapper = new ObjectMapper();
+//		
+//		//Map<String, Object> map = mapper.readTree(response);
+//		JsonNode map = mapper.readTree(con.getInputStream());
+//		JsonParser parser;
+//		JsonNode map1 = map.get("Products");
+//		System.out.println("Movie" + ": " + map1.asText());
+		
+
+//		for (String key : map.keySet())
+//		{
+//			System.out.println(key + ": " + map.get(key));
+//		}
+//		LinkedHashMap list = (LinkedHashMap)map.get("Products");
+//		
+//		for (Object item : list)
+//		{
+//			Map<String, Object> innerMap = (Map<String, Object>)item;
+//			for (String key : innerMap.keySet())
+//			{
+//				System.out.println(key + ": " + innerMap.get(key));
+//			}
+//		}
+
 		
 		//JSONArray json = new JSONArray();
 //		InputStream is = con.getInputStream();
@@ -93,16 +203,16 @@ public class RedboxAPI extends API_Top {
 //			System.out.println(array.get(i));
 //		}
 		
-		try (InputStream is = con.getInputStream();
-				   JsonReader rdr = Json.createReader(is)) {
-				
-				   JsonObject object = rdr.readObject();
-				   JsonArray results = object.getJsonArray("Products");
-				   
-				   for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-						 System.out.println("Title: " + result.getJsonObject("Movie").getString("Title"));
-						}
-		}
+//		try (InputStream is = con.getInputStream();
+//				   JsonReader rdr = Json.createReader(is)) {
+//				
+//				   JsonObject object = rdr.readObject();
+//				   JsonArray results = object.getJsonArray("Products");
+//				   
+//				   for (JsonObject result : results.getValuesAs(JsonObject.class)) {
+//						 System.out.println("Title: " + result.getJsonObject("Movie").getString("Title"));
+//						}
+//		}
 //		JSONObject array2 = JSONObject.parse(array.get("Products").toString());
 //		HashMap<String, String> values = array2.v
 //		
