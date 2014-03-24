@@ -37,12 +37,13 @@ public class GetMovie extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MediaInfo media = new MediaInfo();
+		
 		
 		String movieName = request.getParameter("mediaName");
+		MediaInfo media = new MediaInfo(movieName);
 		
 		if (movieName != null){
-			HashMap<String, JsonValue> movieInfo = media.getMovieInfo(movieName);
+			HashMap<String, String> movieInfo = media.getMovieInfo();
 			
 			
 			request.getSession().setAttribute("trailerId", movieInfo.get("trailerId"));
@@ -50,6 +51,8 @@ public class GetMovie extends HttpServlet {
 			request.getSession().setAttribute("movieName", movieInfo.get("movieName"));
 			request.getSession().setAttribute("itunePrice", movieInfo.get("itunePrice"));
 			request.getSession().setAttribute("poster", movieInfo.get("poster"));
+			request.getSession().setAttribute("redBoxTitle", movieInfo.get("redBoxTitle"));
+			request.getSession().setAttribute("redBoxDirector", movieInfo.get("redBoxDirector"));
 		}
 		//response.sendRedirect("http://ec2-54-209-114-1.compute-1.amazonaws.com:8080/APIInterface/APIResults.jsp");
 		response.sendRedirect("http://localhost:8080/APIInterface/APIResults.jsp");

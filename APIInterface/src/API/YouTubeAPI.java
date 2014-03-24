@@ -51,7 +51,7 @@ public class YouTubeAPI extends API_Top {
 		
 	    URL url;
 		url = new URL("https://www.googleapis.com/youtube/v3/search?part=id&maxResults=1&q=" + 
-			 			mediaName + "trailer&type=trailer&key=" + this.apiKey);
+			 			this.parseMediaQuery(mediaName) + "trailer&type=trailer&key=" + this.apiKey);
 
 		try (InputStream is = url.openStream();
 		   JsonReader rdr = Json.createReader(is)) {

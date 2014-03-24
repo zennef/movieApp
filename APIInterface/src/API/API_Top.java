@@ -21,5 +21,7 @@ public class API_Top {
 		JsonArray array = null;
 		return array;
 	};
+	
+	protected String parseMediaQuery(String media){ return media.replace(' ', '+'); }
 
 }

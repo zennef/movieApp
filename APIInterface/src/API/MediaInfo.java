@@ -7,24 +7,40 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
+import org.json.JSONException;
+
 public class MediaInfo {
 	private ItunesAPI ituneApi;
 	private YouTubeAPI youTubeApi;
-	private HashMap<String, JsonValue> movieInfo;
+	private RedboxAPI redBoxApi;
+	private String media;
+	private HashMap<String, String> movieInfo;
 	
-	public MediaInfo(){
+	public MediaInfo(String media){
+		this.media = media;
 		ituneApi = new ItunesAPI();
 		youTubeApi = new YouTubeAPI();
-		movieInfo = new HashMap<String, JsonValue>();
+		movieInfo = new HashMap<String, String>();
+		redBoxApi = new RedboxAPI(media);
 	}
 	
 	private void getItuneInfo(String media) throws IOException{
 		JsonArray results = ituneApi.searchMedia(media);
 		
 		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-			this.movieInfo.put("movieName", result.get("trackName"));
-			this.movieInfo.put("itunePrice", result.get("trackPrice"));
-			this.movieInfo.put("poster", result.get("artworkUrl100"));
+			this.movieInfo.put("movieName", result.getString("trackName"));
+			this.movieInfo.put("itunePrice", result.get("trackPrice").toString());
+			this.movieInfo.put("poster", result.getString("artworkUrl100"));
+		}
+	}
+	
+	private void getRedboxInfo(){
+		try {
+			this.movieInfo.put("redBoxTitle", redBoxApi.getMovieTitle());
+			this.movieInfo.put("redBoxDirector", redBoxApi.getMovieDirector());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -32,15 +48,16 @@ public class MediaInfo {
 		JsonArray results = youTubeApi.searchTrailer(media);
 		
 		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-		this.movieInfo.put("trailerId", result.getJsonObject("id").get("videoId"));
+		this.movieInfo.put("trailerId", result.getJsonObject("id").getString("videoId"));
 		//this.movieInfo.put("trailerHtml", result.getJsonObject("player").get("embedHtml"));
 		}
 	}
 	
-	public HashMap<String, JsonValue> getMovieInfo(String media) throws IOException{
-		String movie = media.replace(' ', '+');
-		this.getItuneInfo(movie);
-		this.getYouTubeInfo(movie);
+	public HashMap<String, String> getMovieInfo() throws IOException{
+		//String movie = media.replace(' ', '+');
+		this.getItuneInfo(media);
+		this.getYouTubeInfo(media);
+		this.getRedboxInfo();
 		
 		return this.movieInfo;
 	}

@@ -10,6 +10,8 @@
 	<h1>Movie: ${movieName}</h1>
 	<h4>Price: ${itunePrice}</h4>
 	<img src="${poster}">
+	<h4>RedBox Title: ${redBoxTitle}</h4>
+	<h4>RedBox Director: ${redBoxDirector}</h4>
 	
 	<div>
     	<div id="player"></div>

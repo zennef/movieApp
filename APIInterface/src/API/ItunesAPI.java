@@ -41,7 +41,7 @@ public class ItunesAPI extends API_Top {
 		}
 		
 		public JsonArray searchMedia(String mediaName) throws IOException{
-			 URL url = new URL("https://itunes.apple.com/search?term=" + mediaName + "&media=movie&entity=movie&limit=1");
+			 URL url = new URL("https://itunes.apple.com/search?term=" + this.parseMediaQuery(mediaName) + "&media=movie&entity=movie&limit=1");
 			  try (InputStream is = url.openStream();
 			      JsonReader rdr = Json.createReader(is)) {
 			 
