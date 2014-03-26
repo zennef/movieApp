@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -94,7 +96,7 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Find a Movie</h1>
-            <p class="lead">Search Amazon, Redbox, and YouTube for videos you can stream from you computer.</p>
+            <p class="lead">Search Amazon, Redbox, and iTunes for videos you can stream and download from you computer.</p>
             <form action="/APIInterface/GetMovie" method="post">
               <input type="text" name="mediaName" placeholder="Video Search"/>
               <button class='btn-lg'>Submit</button>
