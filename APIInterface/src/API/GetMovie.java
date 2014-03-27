@@ -40,10 +40,10 @@ public class GetMovie extends HttpServlet {
 		
 		
 		String movieName = request.getParameter("mediaName");
-		MediaInfo media = new MediaInfo(movieName);
+		MediaInfo media = new MediaInfo();
 		
 		if (movieName != null){
-			HashMap<String, String> movieInfo = media.getMovieInfo();
+			HashMap<String, String> movieInfo = media.getMovieInfo(movieName);
 			
 			
 			request.getSession().setAttribute("trailerId", movieInfo.get("trailerId"));

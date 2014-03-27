@@ -15,29 +15,7 @@ import javax.json.JsonReader;
 public class ItunesAPI extends API_Top {
 
 		public ItunesAPI(){
-			Properties prop = new Properties();
-			InputStream input = null;
-			
-			try {
-				 
-				input = new FileInputStream("Api_keys.properties");
-		 
-				// load a properties file
-				prop.load(input);
-		 
-				this.apiKey = prop.getProperty("rottenTomKey");
-		 
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			} finally {
-				if (input != null) {
-					try {
-						input.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+
 		}
 		
 		public JsonArray searchMedia(String mediaName) throws IOException{
@@ -49,5 +27,38 @@ public class ItunesAPI extends API_Top {
 			      JsonArray results = obj.getJsonArray("results");
 			      return results;
 			  } 
+		}
+		
+		public JsonArray searchTopMovies() throws IOException{
+			 URL url = null;
+			try {
+				url = new URL("https://itunes.apple.com/us/rss/topmovies/genre=33/json");
+			} catch (MalformedURLException e) {
+
+				e.printStackTrace();
+			}
+			  try (InputStream is = url.openStream();
+			      JsonReader rdr = Json.createReader(is)) {
+			 
+			      JsonObject obj = rdr.readObject();
+			      JsonObject result = obj.getJsonObject("feed");
+			      JsonArray results = result.getJsonArray("entry");
+			      return results;
+			  }
+		}
+		
+		public static void main(String args[]){
+			ItunesAPI media = new ItunesAPI();
+			
+			try {
+				JsonArray topMovies = media.searchTopMovies();
+				for (JsonObject result : topMovies.getValuesAs(JsonObject.class)) {
+					 System.out.println("Movie: " + result.getJsonObject("im:name").getString("label"));
+					}
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 }
