@@ -133,18 +133,55 @@ public class RedboxAPI extends API_Top {
 //	}
 	
 	public String getMovieTitle() {
-		for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
-			return result.getString("Title");
+		if (movieObject != null){
+			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
+				return result.getString("Title");
+			}
+			return "";
 		}
-		return "";
+		else{
+			return "No media set";
+		}
 	}
 	
 	public String getMovieDirector() {
-		for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
-			return result.getJsonObject("Directors").getString("Person");
+		if (movieObject != null){
+			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
+				return result.getJsonObject("Directors").getString("Person");
+			}
+			return "";
 		}
-		return "";
+		else{
+			return "No media set";
+		}
+	}
+	
+	public JsonArray getTopMovies() throws IOException {
 		
+		
+		String url = "https://api.redbox.com/v3/products/movies/top20?period=30&apiKey=" + this.apiKey;
+
+		URL urlObj = new URL(url);
+		HttpURLConnection con;
+		
+		con = (HttpURLConnection) urlObj.openConnection();
+		
+ 
+		// optional default is GET
+		con.setRequestMethod("GET");
+ 
+		//add request header
+		con.setRequestProperty("Accept", JSON);
+		
+		 try (InputStream is = con.getInputStream();
+			      JsonReader rdr = Json.createReader(is)) {
+			 
+			      JsonObject obj = rdr.readObject();
+			      JsonObject result = obj.getJsonObject("Top20");
+			      System.out.println(result);
+			      JsonArray results = result.getJsonArray("Item");
+			      return results;
+			  }
 	}
 	
 	//public JSONObject getMovieTitle
@@ -153,9 +190,13 @@ public class RedboxAPI extends API_Top {
 		RedboxAPI object = new RedboxAPI();
 		
 		try {
-			object.setMovieObject("Gravity");
-			System.out.println("Title: " + object.getMovieTitle());
-			System.out.println("Director: " + object.getMovieDirector());
+//			object.setMovieObject("Gravity");
+//			System.out.println("Title: " + object.getMovieTitle());
+//			System.out.println("Director: " + object.getMovieDirector());
+			JsonArray topMovies = object.getTopMovies();
+			for (JsonObject result : topMovies.getValuesAs(JsonObject.class)){
+				System.out.println("Movie: " + result.getString("Title"));
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

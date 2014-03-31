@@ -17,11 +17,6 @@ public class API_Top {
 	
 	protected String getApiKey(){ return this.apiKey; }
 	
-	public JsonArray searchMedia(String mediaName) throws IOException{
-		JsonArray array = null;
-		return array;
-	};
-	
 	protected String parseMediaQuery(String media){ return media.replace(' ', '+'); }
 
 }
