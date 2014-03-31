@@ -55,7 +55,7 @@ public class GetMovie extends HttpServlet {
 			request.getSession().setAttribute("redBoxDirector", movieInfo.get("redBoxDirector"));
 		}
 		//response.sendRedirect("http://ec2-54-209-114-1.compute-1.amazonaws.com:8080/APIInterface/APIResults.jsp");
-		response.sendRedirect("http://localhost:8080/APIInterface/APIResults.jsp");
+		response.sendRedirect("http://localhost:8080/APIInterface/results.jsp");
 	}
 
 }

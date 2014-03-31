@@ -6,6 +6,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--
+		Supersized - Fullscreen Slideshow jQuery Plugin
+		Version : 3.2.7
+		Site	: www.buildinternet.com/project/supersized
+		
+		Author	: Sam Dunn
+		Company : One Mighty Roar (www.onemightyroar.com)
+		License : MIT License / GPL License
+	-->
+
+	<head>
 		<title>Flicks</title>
 
     	<!-- Bootstrap core CSS -->
