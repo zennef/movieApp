@@ -100,6 +100,7 @@ public class MediaInfo {
 					newMovie.setTitle(redObject.getString("Title"));
 					newMovie.setDirector(redObject.getJsonObject("Directors").getString("Person"));
 					newMovie.setRedBoxUrl(redObject.getString("@websiteUrl"));
+					newMovie.setPosterUrl(redObject.getJsonObject("BoxArtImages").getJsonArray("link").getJsonObject(1).getString("@href"));
 					movieList.add(newMovie);
 			}
 			
@@ -111,6 +112,7 @@ public class MediaInfo {
 				String itunesTitle = itunesObject.getJsonObject("im:name").getString("label");
 				String itunesDirector = itunesObject.getJsonObject("im:artist").getString("label");
 				String itunesLink = itunesObject.getJsonArray("link").getJsonObject(0).getJsonObject("attributes").getString("href");
+				String itunesPoster = itunesObject.getJsonArray("im:image").getJsonObject(2).getString("label");
 				
 				
 				inList = false; 
@@ -129,6 +131,7 @@ public class MediaInfo {
 					newMovie.setTitle(itunesTitle);
 					newMovie.setDirector(itunesDirector);
 					newMovie.setItunesUrl(itunesLink);
+					newMovie.setPosterUrl(itunesPoster);
 					movieList.add(itunesIndex, newMovie );
 				}
 				
@@ -149,6 +152,7 @@ public class MediaInfo {
 		for(Movie movie : movieList){
 			System.out.println("Movie Title: " + movie.getTitle());
 			System.out.println("Movie Director: " + movie.getDirector());
+			System.out.println("Movie Poster URL: " + movie.getPosterUrl());
 			System.out.println("Redbox Link: " + movie.getRedBoxUrl());
 			System.out.println("Itunes Link: " + movie.getItunesUrl());
 			System.out.println("Itunes Rent Price: " + movie.getItunesRentPrice());

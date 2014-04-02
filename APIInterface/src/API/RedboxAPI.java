@@ -85,52 +85,6 @@ public class RedboxAPI extends API_Top {
 			  }
 	}
  
-//	// HTTP GET request
-//	public void setMovieObject(String movieName) throws Exception {
-// 
-//		String url = " https://api.redbox.com/v3/products?apiKey=" + this.apiKey + "&pageNum=1&pageSize=2&q=" + this.parseMediaQuery(movieName) + "&operator=Contains";
-//
-//		URL obj = new URL(url);
-//		HttpURLConnection con;
-//		
-//			con = (HttpURLConnection) obj.openConnection();
-//		
-// 
-//		// optional default is GET
-//		con.setRequestMethod("GET");
-// 
-//		//add request header
-//		con.setRequestProperty("Accept", JSON);
-//		
-//		
-//		BufferedReader in = new BufferedReader(
-//		        new InputStreamReader(con.getInputStream()));
-//		StringBuilder builder = new StringBuilder();
-//		builder.append('[');
-//		for (String line = null; (line = in.readLine()) != null;) {
-//		    builder.append(line);
-//		}
-//		in.close();
-//		builder.append(']');
-//		System.out.println("Builder: " + builder);
-//		
-//		JSONTokener tokener = new JSONTokener(builder.toString());
-//		JSONArray finalResult = new JSONArray(tokener);
-//		
-//		JSONObject movieInfo = new JSONObject();
-//		try {
-//			movieInfo = finalResult.getJSONObject(0).getJSONObject("Products").getJSONArray("Movie").getJSONObject(0);
-//		} catch (JSONException e) {
-//			System.out.println("EXCEPTION");
-//			e.printStackTrace();
-//		}
-//		
-//		this.movieObject = movieInfo;
-//		
-//			
-//			//System.out.println("START: " + finalResult.getJSONObject(i).getJSONObject("Products").getJSONArray("Movie").getJSONObject(0).getString("RunningLength") + " :END");
-//			//System.out.println("START: " + finalResult.getJSONObject(0).getJSONObject("Products").getJSONArray("Movie").getJSONObject(0).getString("Directors") +" :END");	
-//	}
 	
 	public String getMovieTitle() {
 		if (movieObject != null){
@@ -148,6 +102,18 @@ public class RedboxAPI extends API_Top {
 		if (movieObject != null){
 			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
 				return result.getJsonObject("Directors").getString("Person");
+			}
+			return "";
+		}
+		else{
+			return "No media set";
+		}
+	}
+	
+	public String getMoviePoster(){
+		if (movieObject != null){
+			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
+				return result.getJsonObject("BoxArtImages").getJsonArray("link").getJsonObject(1).getString("@href");
 			}
 			return "";
 		}
@@ -190,13 +156,14 @@ public class RedboxAPI extends API_Top {
 		RedboxAPI object = new RedboxAPI();
 		
 		try {
-//			object.setMovieObject("Gravity");
-//			System.out.println("Title: " + object.getMovieTitle());
-//			System.out.println("Director: " + object.getMovieDirector());
-			JsonArray topMovies = object.getTopMovies();
-			for (JsonObject result : topMovies.getValuesAs(JsonObject.class)){
-				System.out.println("Movie: " + result.getString("Title"));
-			}
+			object.setMovieObject("Gravity");
+			System.out.println("Title: " + object.getMovieTitle());
+			System.out.println("Director: " + object.getMovieDirector());
+			System.out.println("Movie Poster: " + object.getMoviePoster());
+//			JsonArray topMovies = object.getTopMovies();
+//			for (JsonObject result : topMovies.getValuesAs(JsonObject.class)){
+//				System.out.println("Movie: " + result.getString("Title"));
+//			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
