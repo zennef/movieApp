@@ -16,6 +16,7 @@ public class MediaInfo {
 	private ItunesAPI ituneApi;
 	private YouTubeAPI youTubeApi;
 	private RedboxAPI redBoxApi;
+	private RottenTomAPI rottenTomApi;
 	private HashMap<String, String> movieInfo;
 	
 	public MediaInfo(){
@@ -23,6 +24,7 @@ public class MediaInfo {
 		youTubeApi = new YouTubeAPI();
 		movieInfo = new HashMap<String, String>();
 		redBoxApi = new RedboxAPI();
+		rottenTomApi = new RottenTomAPI();
 	}
 	
 	private void getItuneInfo(String media) throws IOException{
@@ -68,13 +70,23 @@ public class MediaInfo {
 					String director = movie.getDirector();
 					ituneApi.setMediaObject(title);
 					
-					// make sure the movie is the right one
+					if (rottenTomApi.setMediaObject(title, director)){
+						movie.setAudienceRating(rottenTomApi.getAudienceRating());
+						movie.setAudienceScore(rottenTomApi.getAudienceScore());
+						movie.setCriticRating(rottenTomApi.getCriticRating());
+						movie.setCriticScore(rottenTomApi.getCriticScore());
+					}
+					
+					// make sure the movie is the right one and itune info to it
 					if (title.equals(ituneApi.getMediaTitle()) && director.equals(ituneApi.getMediaDirector()) ){
 						if (movie.getItunesUrl() == null){
 							movie.setItunesUrl(ituneApi.getMediaLink());
 						}
 						movie.setItunesBuyPrice(ituneApi.getMediaBuyPrice());
 						movie.setItunesRentPrice(ituneApi.getMediaRentPrice());
+						if(movie.getMPAARating() == null){
+							movie.setMPAARating(ituneApi.getMediaMPAARating());
+						}
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -96,10 +108,16 @@ public class MediaInfo {
 			// add redBox movies as base
 			for(JsonObject redObject : redBoxTopMovies.getValuesAs(JsonObject.class)){
 					//System.out.println("RedBox Title: " + redObject.getString("Title"));
+					String title = redObject.getString("Title");
+					if (title.contains("(Blu-ray)")){ // cut out double prints of same movie
+						break;
+					}
 					Movie newMovie = new Movie();
-					newMovie.setTitle(redObject.getString("Title"));
-					newMovie.setDirector(redObject.getJsonObject("Directors").getString("Person"));
+					newMovie.setTitle(redBoxApi.parseRedBoxTitle(title));
+					newMovie.setDirector(redBoxApi.parseAccents(redObject.getJsonObject("Directors").getString("Person")));
 					newMovie.setRedBoxUrl(redObject.getString("@websiteUrl"));
+					newMovie.setSynopsis(redObject.getString("SynopsisShort"));
+					newMovie.setMPAARating(redObject.getString("MPAARating"));
 					newMovie.setPosterUrl(redObject.getJsonObject("BoxArtImages").getJsonArray("link").getJsonObject(1).getString("@href"));
 					movieList.add(newMovie);
 			}
@@ -110,10 +128,10 @@ public class MediaInfo {
 				//System.out.println("itunes Title: " + itunesObject.getJsonObject("im:name").getString("label"));
 				
 				String itunesTitle = itunesObject.getJsonObject("im:name").getString("label");
-				String itunesDirector = itunesObject.getJsonObject("im:artist").getString("label");
+				String itunesDirector = ituneApi.parseMovieDirector(itunesObject.getJsonObject("im:artist").getString("label"));
 				String itunesLink = itunesObject.getJsonArray("link").getJsonObject(0).getJsonObject("attributes").getString("href");
-				String itunesPoster = itunesObject.getJsonArray("im:image").getJsonObject(2).getString("label");
-				
+
+
 				
 				inList = false; 
 				// find movie in list and add itunes link
@@ -131,7 +149,10 @@ public class MediaInfo {
 					newMovie.setTitle(itunesTitle);
 					newMovie.setDirector(itunesDirector);
 					newMovie.setItunesUrl(itunesLink);
+					String itunesPoster = itunesObject.getJsonArray("im:image").getJsonObject(2).getString("label");
 					newMovie.setPosterUrl(itunesPoster);
+					String itunesSynopsis = itunesObject.getJsonObject("summary").getString("label");
+					newMovie.setSynopsis(itunesSynopsis);
 					movieList.add(itunesIndex, newMovie );
 				}
 				
@@ -157,6 +178,12 @@ public class MediaInfo {
 			System.out.println("Itunes Link: " + movie.getItunesUrl());
 			System.out.println("Itunes Rent Price: " + movie.getItunesRentPrice());
 			System.out.println("Itunes Buy Price: " + movie.getItunesBuyPrice());
+			System.out.println("Movie Rating: " + movie.getMPAARating());
+			System.out.println("Critic Rating: " + movie.getCriticRating());
+			System.out.println("Critic Score: " + movie.getCriticScore());
+			System.out.println("Audience Rating: " + movie.getAudienceRating());
+			System.out.println("Audience Score: " + movie.getAudienceScore());
+			System.out.println("Synopsis: " + movie.getSynopsis());
 			System.out.println();
 			
 		}

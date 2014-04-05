@@ -26,6 +26,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 
 
+
 import com.jayway.restassured.RestAssured.*;
 import com.mashape.unirest.http.HttpResponse;
 
@@ -79,7 +80,9 @@ public class RedboxAPI extends API_Top {
 			      JsonReader rdr = Json.createReader(is)) {
 			 
 			      JsonObject obj = rdr.readObject();
+			      System.out.println(obj);
 			      JsonObject result = obj.getJsonObject("Products");
+			      
 			      JsonArray results = result.getJsonArray("Movie");
 			      this.movieObject = results;
 			  }
@@ -110,6 +113,18 @@ public class RedboxAPI extends API_Top {
 		}
 	}
 	
+	public String getMovieMPAARating(){
+		if (movieObject != null){
+			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
+				return result.getString("MPAARating");
+			}
+			return "";
+		}
+		else{
+			return "No media set";
+		}
+	}
+	
 	public String getMoviePoster(){
 		if (movieObject != null){
 			for (JsonObject result : this.movieObject.getValuesAs(JsonObject.class)){
@@ -120,6 +135,13 @@ public class RedboxAPI extends API_Top {
 		else{
 			return "No media set";
 		}
+	}
+	
+	public String parseRedBoxTitle(String title){
+		if (title.contains("(")){
+			return title.substring(0, title.indexOf('(') - 1);
+		}
+		return title;
 	}
 	
 	public JsonArray getTopMovies() throws IOException {
@@ -152,18 +174,19 @@ public class RedboxAPI extends API_Top {
 	
 	//public JSONObject getMovieTitle
 	
-	public static void main(String args[]) throws Exception{
+	public static void main(String args[]) {
 		RedboxAPI object = new RedboxAPI();
 		
 		try {
-			object.setMovieObject("Gravity");
-			System.out.println("Title: " + object.getMovieTitle());
-			System.out.println("Director: " + object.getMovieDirector());
-			System.out.println("Movie Poster: " + object.getMoviePoster());
-//			JsonArray topMovies = object.getTopMovies();
-//			for (JsonObject result : topMovies.getValuesAs(JsonObject.class)){
-//				System.out.println("Movie: " + result.getString("Title"));
-//			}
+//			object.setMovieObject("Anchorman");
+//			System.out.println("Title: " + object.getMovieTitle());
+//			System.out.println("Director: " + object.getMovieDirector());
+//			System.out.println("Movie Poster: " + object.getMoviePoster());
+//			System.out.println("Movie MPAARating: " + object.getMovieMPAARating());
+			JsonArray topMovies = object.getTopMovies();
+			for (JsonObject result : topMovies.getValuesAs(JsonObject.class)){
+				System.out.println("Movie: " + result.getString("Title"));
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

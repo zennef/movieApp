@@ -29,6 +29,17 @@ public class ItunesAPI extends API_Top {
 			  } 
 		}
 		
+		public void setMediaObjectById(String id) throws IOException{
+			 URL url = new URL("https://itunes.apple.com/lookup?id=" + id);
+			  try (InputStream is = url.openStream();
+			      JsonReader rdr = Json.createReader(is)) {
+			 
+			      JsonObject obj = rdr.readObject();
+			      JsonArray results = obj.getJsonArray("results");
+			      this.mediaObject = results;
+			  } 
+		}
+		
 		public String getMediaTitle(){
 			if (mediaObject != null){
 				for(JsonObject media : this.mediaObject.getValuesAs(JsonObject.class)){
@@ -87,10 +98,22 @@ public class ItunesAPI extends API_Top {
 			}
 		}
 		
+		public String getMediaMPAARating(){
+			if (mediaObject != null){
+				for(JsonObject media : this.mediaObject.getValuesAs(JsonObject.class)){
+					return media.getString("contentAdvisoryRating");
+				}
+				return null;
+			}
+			else{
+				return "No media object set";
+			}
+		}
+		
 		public String getMediaDirector(){
 			if (mediaObject != null){
 				for(JsonObject media : this.mediaObject.getValuesAs(JsonObject.class)){
-					return media.getString("artistName");
+					return this.parseMovieDirector(media.getString("artistName"));
 				}
 				return null;
 			}
@@ -109,6 +132,13 @@ public class ItunesAPI extends API_Top {
 			else{
 				return "No media object set";
 			}
+		}
+		
+		public String parseMovieDirector(String director){
+			if (director.contains("&")){
+				return this.parseAccents(director.substring(0, director.indexOf('&') - 1));
+			}
+			return this.parseAccents(director);
 		}
 		
 		public JsonArray getTopMovies() throws IOException{
@@ -144,6 +174,7 @@ public class ItunesAPI extends API_Top {
 				System.out.println("Movie Poster: " + media.getMediaPoster());
 				System.out.println("Movie Buy Price: " + media.getMediaBuyPrice());
 				System.out.println("Movie Rental Price: " + media.getMediaRentPrice());
+				System.out.println("Movie Rating: " + media.getMediaMPAARating());
 				
 				
 			} catch (IOException e) {

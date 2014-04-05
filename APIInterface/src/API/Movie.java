@@ -8,9 +8,38 @@ public class Movie {
 	private String itunesUrl;
 	private String itunesBuyPrice;
 	private String itunesRentPrice;
-	private String rating;
+	private String MPAArating;
+	private String itunesId;
+	private String criticRating;
+	private String criticScore;
+	private String audienceRating;
+	private String audienceScore;
+	private String synopsis;
 	
-	
+	public String getCriticRating() {
+		return criticRating;
+	}
+	public void setCriticRating(String criticRating) {
+		this.criticRating = criticRating;
+	}
+	public String getCriticScore() {
+		return criticScore;
+	}
+	public void setCriticScore(String criticScore) {
+		this.criticScore = criticScore;
+	}
+	public String getAudienceRating() {
+		return audienceRating;
+	}
+	public void setAudienceRating(String audienceRating) {
+		this.audienceRating = audienceRating;
+	}
+	public String getAudienceScore() {
+		return audienceScore;
+	}
+	public void setAudienceScore(String audienceScore) {
+		this.audienceScore = audienceScore;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -41,11 +70,11 @@ public class Movie {
 	public void setItunesUrl(String itunesUrl) {
 		this.itunesUrl = itunesUrl;
 	}
-	public String getRating() {
-		return rating;
+	public String getMPAARating() {
+		return MPAArating;
 	}
-	public void setRating(String rating) {
-		this.rating = rating;
+	public void setMPAARating(String rating) {
+		this.MPAArating = rating;
 	}
 	public String getItunesBuyPrice() {
 		return itunesBuyPrice;
@@ -58,6 +87,18 @@ public class Movie {
 	}
 	public void setItunesRentPrice(String itunesRentPrice) {
 		this.itunesRentPrice = itunesRentPrice;
+	}
+	public String getItunesId() {
+		return itunesId;
+	}
+	public void setItunesId(String itunesId) {
+		this.itunesId = itunesId;
+	}
+	public String getSynopsis() {
+		return synopsis;
+	}
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 	
 	
