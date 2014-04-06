@@ -6,18 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!--
-		Supersized - Fullscreen Slideshow jQuery Plugin
-		Version : 3.2.7
-		Site	: www.buildinternet.com/project/supersized
-		
-		Author	: Sam Dunn
-		Company : One Mighty Roar (www.onemightyroar.com)
-		License : MIT License / GPL License
-	-->
-
-	<head>
 		<title>Flicks</title>
 
     	<!-- Bootstrap core CSS -->
@@ -51,7 +39,7 @@
 					// Functionality
 					slide_interval          :   3000,		// Length between transitions
 					transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
-					transition_speed		:	700,		// Speed of transition
+					transition_speed		    :   700,		// Speed of transition
 															   
 					// Components							
 					slide_links				:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
@@ -96,10 +84,13 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Find a Movie</h1>
-            <p class="lead">Search Amazon, Redbox, and iTunes for videos you can stream and download from you computer.</p>
+            <p class="lead">Search Amazon, Redbox, and iTunes for movies and TV shows to watch tonight.</p>
             <form action="/APIInterface/GetMovie" method="post">
-              <input type="text" name="mediaName" placeholder="Video Search"/>
-              <button class='btn-lg'>Submit</button>
+              <div class='col-xs-10'>
+              <input class='form-control input-lg' type="text" name="mediaName" placeholder="Video Search"/>
+            </div>
+              <button class='btn-lg btn-danger'>Submit</button>
+              <button class='btn-lg btn-link' onClick='/APIInterface/getTopMovies'>Top Charts</button>
             </form>
           </div>
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Flicks</title>
+		<title>Pick Your Flick</title>
 
     	<!-- Bootstrap core CSS -->
     	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -34,20 +34,25 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">Flicks</h3>
+              <h3 class="masthead-brand">Pick Your Flick</h3>
               <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
+                <li class="active"><a href="#">Search</a></li>
+                <li><a href="#">Top Charts</a></li>
               </ul>
             </div>
           </div>
-          <div class="row">
+
+          <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Movie: ${movieName}</h3>
+          </div>
+          <div class="panel-body">
             <img class='col-md-4' src="${poster}">
-            <h1>Movie: ${movieName}</h1>
             <h4>Price: ${itunePrice}</h4>
-            <h4>RedBox Title: ${redBoxTitle}</h4>
-            <h4>RedBox Director: ${redBoxDirector}</h4>
+            <p>RedBox Title: ${redBoxTitle}</p>
+            <p>RedBox Director: ${redBoxDirector}</p>
+          </div>
+
             <div>
               <div id="player"></div>
             </div>
@@ -89,18 +94,17 @@
           function stopVideo() {
             player.stopVideo();
           }
-          </script> 
+          </script>
+          </div>
 
-          <div class="mastfoot">
+          <footer class="mastfoot">
             <div class="inner">
               <p>This is a project by Cam Lewis, Eric Dixon, and Mike Garcia for CS 313 - Web Engineering 2</p>
             </div>
-          </div>
+          </footer>
 
         </div>
-
       </div>
-
     </div>
 
 	<!-- Bootstrap core JavaScript

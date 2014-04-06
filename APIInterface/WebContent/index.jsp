@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Flicks</title>
+		<title>Pick Your Flick</title>
 
     	<!-- Bootstrap core CSS -->
     	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -54,37 +54,25 @@
 		    });
 		    
 		</script>
-		
 	</head>
-	
-	<style type="text/css">
-		ul#demo-block{ margin:0 15px 15px 15px; }
-			ul#demo-block li{ margin:0 0 10px 0; padding:10px; display:inline; float:left; clear:both; color:#aaa; background:url('img/bg-black.png'); font:11px Helvetica, Arial, sans-serif; }
-			ul#demo-block li a{ color:#eee; font-weight:bold; }
-	</style>
-
 <body>
-
 	<div class="site-wrapper">
-
       <div class="site-wrapper-inner">
-
         <div class="cover-container">
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">Flicks</h3>
+              <h3 class="masthead-brand white">Pick Your Flick</h3>
               <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Contact</a></li>
+                <li class="active white"><a href="#">Search</a></li>
+                <li class='white'><a href="#">Top Charts</a></li>
               </ul>
             </div>
           </div>
 
           <div class="inner cover">
-            <h1 class="cover-heading">Find a Movie</h1>
-            <p class="lead">Search Amazon, Redbox, and iTunes for movies and TV shows to watch tonight.</p>
+            <h1 class="cover-heading white">Find a Movie</h1>
+            <p class="lead white">Search Amazon, Redbox, and iTunes for movies and TV shows to watch tonight.</p>
             <form action="/APIInterface/GetMovie" method="post">
               <div class='col-xs-10'>
               <input class='form-control input-lg' type="text" name="mediaName" placeholder="Video Search"/>
@@ -94,16 +82,14 @@
             </form>
           </div>
 
-          <div class="mastfoot">
+          <footer class="mastfoot">
             <div class="inner">
               <p>This is a project by Cam Lewis, Eric Dixon, and Mike Garcia for CS 313 - Web Engineering 2</p>
             </div>
-          </div>
+          </footer>
 
         </div>
-
       </div>
-
     </div>
 
 	<!-- Bootstrap core JavaScript
