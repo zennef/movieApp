@@ -34,10 +34,9 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">Pick Your Flick</h3>
               <ul class="nav masthead-nav">
-                <li class="active"><a href="#">Search</a></li>
-                <li><a href="#">Top Charts</a></li>
+                <li class="active"><a href="index.jsp">Search</a></li>
+                <li><a href="top_movies.jsp">Top Charts</a></li>
               </ul>
             </div>
           </div>

@@ -29,31 +29,7 @@
 		
 		<script type="text/javascript" src="js/supersized.3.2.7.min.js"></script>
 		<script type="text/javascript" src="theme/supersized.shutter.min.js"></script>
-		
-		<script type="text/javascript">
-			
-			jQuery(function($){
-				
-				$.supersized({
-				
-					// Functionality
-					slide_interval          :   3000,		// Length between transitions
-					transition              :   1, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
-					transition_speed		    :   700,		// Speed of transition
-															   
-					// Components							
-					slide_links				:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
-					slides: [     // Slideshow Images
-            			{image : 'img/1.jpg', title : 'movies', thumb : 'movies'},
-            			{image : 'img/2.jpg', title : 'movies', thumb : 'movies'},
-            			{image : 'img/3.jpg', title : 'movies', thumb : 'movies'},
-            			{image : 'img/4.jpg', title : 'movies', thumb : 'movies'},
-            			{image : 'img/5.jpg', title : 'movies', thumb : 'movies'}
-          			]  	
-				});
-		    });
-		    
-		</script>
+		<script type="text/javascript" src='js/background.js'></script>
 	</head>
 <body>
 	<div class="site-wrapper">
@@ -62,16 +38,16 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand white">Pick Your Flick</h3>
               <ul class="nav masthead-nav">
-                <li class="active white"><a href="#">Search</a></li>
-                <li class='white'><a href="#">Top Charts</a></li>
+                <li class="active white"><a href="index.jsp">Search</a></li>
+                <li class='white'><a href="top_movies.jsp">Top Charts</a></li>
               </ul>
             </div>
           </div>
 
+
           <div class="inner cover">
-            <h1 class="cover-heading white">Find a Movie</h1>
+            <img src='img/PickYourFlickLogo.png'>
             <p class="lead white">Search Amazon, Redbox, and iTunes for movies and TV shows to watch tonight.</p>
             <form action="/APIInterface/GetMovie" method="post">
               <div class='col-xs-10'>
@@ -95,7 +71,6 @@
 	<!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-
     <script src="js/bootstrap.min.js"></script>
     <script src="js/docs.min.js"></script>
 </body>
